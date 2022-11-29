@@ -1,4 +1,5 @@
 using MagicVilla_WebAPI.Data;
+using MagicVilla2_WebAPI;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //Log.Logger = new LoggerConfiguration().MinimumLevel.Information()
 //    .WriteTo.File("log/villaLogs.txt", rollingInterval: RollingInterval.Day).CreateLogger();
 //builder.Host.UseSerilog();
+
+
+
+
+
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 
 
