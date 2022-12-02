@@ -19,7 +19,7 @@ public class VillaNumber
     // deja expresado que VillaID es una foreign-key a la tabla Villa
     // el normal con MAGIC STRING "[ForeignKey("VillaID"))]" no avisa si hay
     // error xq cambie el nombre o algo asi, xeso se ocupa mejor este
-    //[ForeignKey(nameof(VillaID))]
-    //public int VillaID { get; set; }
-    //public Villa Villa { get; set; }
+    [ForeignKey(nameof(VillaID))]
+    public int VillaID { get; set; }
+    public Villa Villa { get; set; }
 }
