@@ -11,5 +11,5 @@ public class VillaNumberDTO
     public int VillaID { get; set; }
     public string SpecialDetails { get; set; }
 
-    //public VillaDTO Villa { get; set; } // nav prop
+    public VillaDTO Villa { get; set; } // nav prop
 }

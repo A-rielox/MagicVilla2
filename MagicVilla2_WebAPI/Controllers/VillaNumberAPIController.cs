@@ -42,7 +42,7 @@ public class VillaNumberAPIController : ControllerBase
 
         try
         {
-            var villaNumbers = await _dbVillaNumber.GetAllAsync();
+            var villaNumbers = await _dbVillaNumber.GetAllAsync(includeProperties: "Villa");
 
             _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumbers);
             _response.StatusCode = HttpStatusCode.OK;
