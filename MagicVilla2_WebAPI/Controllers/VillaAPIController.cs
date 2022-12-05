@@ -2,6 +2,7 @@
 using MagicVilla2_WebAPI.Models;
 using MagicVilla2_WebAPI.Models.Dto;
 using MagicVilla2_WebAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -31,6 +32,7 @@ public class VillaAPIController : ControllerBase
     /// ///////////////////////////////////////////////
     ///
     [HttpGet]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -60,6 +62,7 @@ public class VillaAPIController : ControllerBase
     /// ///////////////////////////////////////////////
     ///
     [HttpGet("{id:int}", Name = "GetVilla")]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
