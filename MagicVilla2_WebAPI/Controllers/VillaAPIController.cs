@@ -32,19 +32,39 @@ public class VillaAPIController : ControllerBase
     /// ///////////////////////////////////////////////
     ///
     [HttpGet]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<APIResponse>> GetVillas()
+    public async Task<ActionResult<APIResponse>> GetVillas([FromQuery] int? occupancy,
+                                                            [FromQuery] string? search)
     {
         _logger.LogInformation("Getting all villas.");
 
         try
         {
-            var villas = await _dbVilla.GetAllAsync();
+            IEnumerable<Villa> villaList;
 
-            _response.Result = _mapper.Map<List<VillaDTO>>(villas);
+            // FILTRO POR OCCUPANCY
+            if(occupancy > 0)
+            {
+                villaList = await _dbVilla.GetAllAsync(v => v.Occupancy == occupancy);
+            } else
+            {
+                villaList = await _dbVilla.GetAllAsync();
+            }
+
+
+            // SEARCH POR NOMBRE
+            if (!string.IsNullOrEmpty(search))
+            {
+                villaList = villaList.Where(v => /*v.Amenity.ToLower().Contains(search) ||*/ 
+                                                 v.Name.ToLower().Contains(search));
+            }
+
+
+
+            _response.Result = _mapper.Map<List<VillaDTO>>(villaList);
             _response.StatusCode = HttpStatusCode.OK;
 
             return Ok(_response);
@@ -145,6 +165,7 @@ public class VillaAPIController : ControllerBase
     /// ///////////////////////////////////////////////
     ///
     [HttpDelete("{id:int}", Name = "DeleteVilla")]
+    [Authorize(Roles = "XD")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
