@@ -30,7 +30,8 @@ public class Repository<T> : IRepository<T> where T : class
     /// ///////////////////////////////////////////////
     ///
     public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null,
-                                            string? includeProperties = null)
+                                            string? includeProperties = null,
+                                            int pageSize = 0, int pageNumber = 1)
     {
         IQueryable<T> query = dbSet;
 
@@ -38,6 +39,22 @@ public class Repository<T> : IRepository<T> where T : class
         {
             query = query.Where(filter);
         }
+
+
+
+        // PAGINATION
+        if(pageSize > 0)
+        {
+            if(pageSize > 100)
+            {
+                pageSize = 100;
+            }
+
+            query = query.Skip(pageSize * ( pageNumber - 1 )).Take(pageSize);
+        }
+
+
+
 
         // al necesitar incluir props vendrian como "Villa, VillaSpacial"
         if (includeProperties != null)

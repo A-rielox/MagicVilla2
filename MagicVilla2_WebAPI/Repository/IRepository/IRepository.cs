@@ -4,8 +4,12 @@ namespace MagicVilla2_WebAPI.Repository.IRepository;
 
 public interface IRepository<T> where T : class
 {
+    // sin pagination
+    //Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null,
+    //                            string? includeProperties = null);
     Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null,
-                                string? includeProperties = null);
+                                string? includeProperties = null,
+                                int pageSize = 0, int pageNumber = 1);
 
     Task<T> GetAsync(Expression<Func<T, bool>> filter = null,
                             bool tracked = true,
